@@ -1,11 +1,13 @@
 package com.Ankit.EmployeManagement.dto;
 
 import com.Ankit.EmployeManagement.model.Department;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@Data
 public class EmployeeResponseDto {
     private Long id;
 
