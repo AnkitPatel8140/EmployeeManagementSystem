@@ -23,7 +23,7 @@ public class Employee {
     @Email
     private String email;
 
-    private BigDecimal salary;
+    private Double salary;
 
     private LocalDate joiningDate;
 
