@@ -1,12 +1,16 @@
 package com.Ankit.EmployeManagement.service;
 
-import com.Ankit.EmployeManagement.dto.DepartmentResponseDto;
+import com.Ankit.EmployeManagement.dto.requests.DepartmentRequestDto;
+import com.Ankit.EmployeManagement.dto.response.DepartmentResponseDto;
 import com.Ankit.EmployeManagement.exception.DepartementNotFoundException;
 import com.Ankit.EmployeManagement.model.Department;
 import com.Ankit.EmployeManagement.repository.DepartmentRepository;
+import com.Ankit.EmployeManagement.validation.CreateGroup;
+import jakarta.validation.groups.Default;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 
@@ -22,7 +26,7 @@ public class DepartmentService {
         return departmentList
                 .stream()
                 .map(department -> {
-                    return modelMapper(department);
+                    return toResponseDto(department);
                 })
                 .toList();
     }
@@ -34,12 +38,16 @@ public class DepartmentService {
                     return new DepartementNotFoundException(id);
                 });
 
-        return modelMapper(department);
+        return toResponseDto(department);
     }
 
+    public DepartmentResponseDto createDepartment(DepartmentRequestDto departementRequestDto) {
+        Department department = modelMapper.map(departementRequestDto, Department.class);
+        departmentRepository.save(department);
+        return modelMapper.map(department, DepartmentResponseDto.class);
+    }
 
-
-    public DepartmentResponseDto modelMapper(Department department) {
+    public DepartmentResponseDto toResponseDto(Department department) {
         return modelMapper.map(department, DepartmentResponseDto.class);
     }
 }

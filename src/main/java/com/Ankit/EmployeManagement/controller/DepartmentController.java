@@ -1,9 +1,8 @@
 package com.Ankit.EmployeManagement.controller;
 
-import com.Ankit.EmployeManagement.dto.DepartmentResponseDto;
+import com.Ankit.EmployeManagement.dto.response.DepartmentResponseDto;
 import com.Ankit.EmployeManagement.service.DepartmentService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

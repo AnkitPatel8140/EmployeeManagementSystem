@@ -1,4 +1,4 @@
-package com.Ankit.EmployeManagement.dto;
+package com.Ankit.EmployeManagement.dto.requests;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;

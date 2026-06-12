@@ -52,3 +52,12 @@ Department Endpoints
 | GET    | /api/departments/{id} |
 | PUT    | /api/departments/{id} |
 | DELETE | /api/departments/{id} |
+
+
+| Method                         | Endpoint                      | Purpose |
+| ------------------------------ | ----------------------------- | ------- |
+| `POST /api/departments`        | Create a new department       |         |
+| `GET /api/departments`         | Get all departments           |         |
+| `GET /api/departments/{id}`    | Get one department by ID      |         |
+| `PUT /api/departments/{id}`    | Update an existing department |         |
+| `DELETE /api/departments/{id}` | Delete a department           |         |

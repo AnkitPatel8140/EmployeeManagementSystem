@@ -1,4 +1,4 @@
-package com.Ankit.EmployeManagement.dto;
+package com.Ankit.EmployeManagement.dto.response;
 
 import com.Ankit.EmployeManagement.model.Department;
 import lombok.Data;
