@@ -30,10 +30,14 @@ public class DepartmentService {
     public DepartmentResponseDto getDepartment(Long id) {
         Department department = departmentRepository
                 .findById(id)
-                .orElseThrow(()-> {return new DepartementNotFoundException(id);});
+                .orElseThrow(() -> {
+                    return new DepartementNotFoundException(id);
+                });
 
         return modelMapper(department);
     }
+
+
 
     public DepartmentResponseDto modelMapper(Department department) {
         return modelMapper.map(department, DepartmentResponseDto.class);
