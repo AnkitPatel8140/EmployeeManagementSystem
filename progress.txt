@@ -1,0 +1,3 @@
+I am currently working on the sevices
+
+Till now i have created the getallDepartments and getDepartment service

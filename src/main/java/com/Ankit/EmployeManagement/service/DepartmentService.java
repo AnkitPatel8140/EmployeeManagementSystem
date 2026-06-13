@@ -6,12 +6,13 @@ import com.Ankit.EmployeManagement.exception.DepartementNotFoundException;
 import com.Ankit.EmployeManagement.exception.DepartmentAlreadyExistsException;
 import com.Ankit.EmployeManagement.model.Department;
 import com.Ankit.EmployeManagement.repository.DepartmentRepository;
-import com.Ankit.EmployeManagement.validation.CreateGroup;
-import jakarta.validation.groups.Default;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
+
 
 import java.util.List;
 
@@ -21,25 +22,38 @@ public class DepartmentService {
     private final DepartmentRepository departmentRepository;
     private final ModelMapper modelMapper;
 
-    public List<DepartmentResponseDto> getAllDepartments() {
-        List<Department> departmentList = departmentRepository.findAll();
+    public Page<DepartmentResponseDto> getAllDepartments(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Department> departmentPage = departmentRepository.findAll(pageable);
 
-        return departmentList
-                .stream()
+        return departmentPage
                 .map(department -> {
                     return toResponseDto(department);
-                })
-                .toList();
+                });
     }
 
-    public DepartmentResponseDto getDepartment(Long id) {
+    public DepartmentResponseDto getDepartmentById(Long id) {
         Department department = departmentRepository
                 .findById(id)
                 .orElseThrow(() -> {
-                    return  new DepartementNotFoundException(id);
+                    return  new DepartementNotFoundException("Department not found with id:" + id);
                 });
 
         return toResponseDto(department);
+    }
+
+    public DepartmentResponseDto getDepartmentByName(String name) {
+        String normalizedName = name.trim().toLowerCase();
+
+        Department department = departmentRepository
+                .findByName(normalizedName)
+                .orElseThrow(() -> {
+                    return new DepartementNotFoundException(
+                            "Department not found with name: " + name
+                    );
+                });
+
+        return modelMapper.map(department, DepartmentResponseDto.class);
     }
 
     public DepartmentResponseDto createDepartment(DepartmentRequestDto departementRequestDto) {
@@ -50,6 +64,9 @@ public class DepartmentService {
                     "Department already exists with the name :" + departementRequestDto.getName()
             );
         }
+
+        departementRequestDto.setName(normalizedName);
+
         Department department = modelMapper.map(departementRequestDto, Department.class);
         departmentRepository.save(department);
         return modelMapper.map(department, DepartmentResponseDto.class);
