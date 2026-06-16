@@ -1,5 +1,6 @@
 package com.Ankit.EmployeManagement.controller;
 
+import com.Ankit.EmployeManagement.dto.requests.DepartmentRequestDto;
 import com.Ankit.EmployeManagement.dto.response.DepartmentResponseDto;
 import com.Ankit.EmployeManagement.service.DepartmentService;
 import lombok.RequiredArgsConstructor;
@@ -29,5 +30,20 @@ public class DepartmentController {
     @GetMapping("/name/{name}")
     public DepartmentResponseDto getDepartmentByName(@PathVariable String name) {
         return departmentService.getDepartmentByName(name);
+    }
+
+    @PostMapping("/")
+    public DepartmentResponseDto createDepartment(@RequestBody DepartmentRequestDto departmentRequestDto) {
+        return departmentService.createDepartment(departmentRequestDto);
+    }
+
+    @PutMapping("/{id}")
+    public DepartmentResponseDto updateDepartment(@PathVariable Long id,@RequestBody DepartmentRequestDto departmentRequestDto) {
+        return departmentService.updateDepartment(id, departmentRequestDto);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteDepartment(@PathVariable Long id) {
+        departmentService.deleteDepartment(id);
     }
 }
