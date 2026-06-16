@@ -83,6 +83,15 @@ public class DepartmentService {
         return modelMapper.map(updatedDepartment, DepartmentResponseDto.class);
     }
 
+    public void deleteDepartment(Long id) {
+
+        if(!departmentRepository.existsById(id)) {
+            throw new DepartmentNotFoundException("Department does not exist with Id : "+id);
+        }
+
+        departmentRepository.deleteById(id);
+    }
+
     public DepartmentResponseDto toResponseDto(Department department) {
         return modelMapper.map(department, DepartmentResponseDto.class);
     }
