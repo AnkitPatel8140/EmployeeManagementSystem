@@ -2,7 +2,7 @@ package com.Ankit.EmployeManagement.service;
 
 import com.Ankit.EmployeManagement.dto.requests.DepartmentRequestDto;
 import com.Ankit.EmployeManagement.dto.response.DepartmentResponseDto;
-import com.Ankit.EmployeManagement.exception.DepartementNotFoundException;
+import com.Ankit.EmployeManagement.exception.DepartmentNotFoundException;
 import com.Ankit.EmployeManagement.exception.DepartmentAlreadyExistsException;
 import com.Ankit.EmployeManagement.model.Department;
 import com.Ankit.EmployeManagement.repository.DepartmentRepository;
@@ -12,9 +12,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +33,7 @@ public class DepartmentService {
         Department department = departmentRepository
                 .findById(id)
                 .orElseThrow(() -> {
-                    return  new DepartementNotFoundException("Department not found with id:" + id);
+                    return  new DepartmentNotFoundException("Department not found with id:" + id);
                 });
 
         return toResponseDto(department);
@@ -48,7 +45,7 @@ public class DepartmentService {
         Department department = departmentRepository
                 .findByName(normalizedName)
                 .orElseThrow(() -> {
-                    return new DepartementNotFoundException(
+                    return new DepartmentNotFoundException(
                             "Department not found with name: " + name
                     );
                 });
@@ -56,20 +53,34 @@ public class DepartmentService {
         return modelMapper.map(department, DepartmentResponseDto.class);
     }
 
-    public DepartmentResponseDto createDepartment(DepartmentRequestDto departementRequestDto) {
-        String normalizedName = departementRequestDto.getName().trim().toLowerCase();
+    public DepartmentResponseDto createDepartment(DepartmentRequestDto departmentRequestDto) {
+        String normalizedName = departmentRequestDto.getName().trim().toLowerCase();
 
         if(departmentRepository.existsByName(normalizedName)) {
             throw new DepartmentAlreadyExistsException(
-                    "Department already exists with the name :" + departementRequestDto.getName()
+                    "Department already exists with the name :" + departmentRequestDto.getName()
             );
         }
 
-        departementRequestDto.setName(normalizedName);
+        departmentRequestDto.setName(normalizedName);
 
-        Department department = modelMapper.map(departementRequestDto, Department.class);
+        Department department = modelMapper.map(departmentRequestDto, Department.class);
         departmentRepository.save(department);
         return modelMapper.map(department, DepartmentResponseDto.class);
+    }
+
+    public DepartmentResponseDto updateDepartment(Long id, DepartmentRequestDto departmentRequestDto) {
+        Department department = departmentRepository
+                .findById(id)
+                .orElseThrow(()->{
+                    return new DepartmentNotFoundException("Departement not found with id : " + id);
+                });
+
+        department.setDescription(departmentRequestDto.getDescription());
+        department.setName(departmentRequestDto.getName());
+
+        Department updatedDepartment = departmentRepository.save(department);
+        return modelMapper.map(updatedDepartment, DepartmentResponseDto.class);
     }
 
     public DepartmentResponseDto toResponseDto(Department department) {
