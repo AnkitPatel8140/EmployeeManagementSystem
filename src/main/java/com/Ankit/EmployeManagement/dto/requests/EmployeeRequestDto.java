@@ -20,5 +20,8 @@ public class EmployeeRequestDto {
 
     @NotNull
     private Double salary;
+
+    @NotNull
+    private String Department;
 }
 
