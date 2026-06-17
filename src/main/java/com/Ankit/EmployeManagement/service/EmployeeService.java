@@ -19,6 +19,7 @@ import java.time.LocalDate;
 
 @RequiredArgsConstructor
 public class EmployeeService {
+
     private final EmployeeRepository employeeRepository;
     private final DepartmentRepository departmentRepository;
     private final ModelMapper modelMapper;
@@ -123,7 +124,13 @@ public class EmployeeService {
 
        return modelMapper.map(updatedEmployee, EmployeeResponseDto.class);
     }
-//    delete employee
 
+//    delete employee
+    public void deleteEmployee(Long id) {
+       if(!employeeRepository.existsById(id)) {
+           throw new EmployeeNotFoundException("Employee does not exist with the id : "+id);
+       }
+       employeeRepository.deleteById(id);
+    }
 
 }
