@@ -94,7 +94,35 @@ public class EmployeeService {
    }
 
 //   update employee
+    public EmployeeResponseDto updateEmployee(Long id, EmployeeRequestDto employeeRequestDto) {
+       if(!employeeRepository.existsById(id)) {
+           throw new EmployeeNotFoundException("Employee does not exist with id : "+id);
+       }
 
+       String departmentName = employeeRequestDto.getDepartment().toLowerCase();
+
+       if(!departmentRepository.existsByName(departmentName)) {
+           throw new DepartmentNotFoundException("Departement does not exist with name : " + departmentName);
+       }
+
+       Employee employee = employeeRepository.findById(id).get();
+       Department department  = departmentRepository.findByName(departmentName).get();
+
+       employee.setDepartment(department);
+       employee.setFirstName(employeeRequestDto.getFirstName().trim().toLowerCase());
+       employee.setLastName(employeeRequestDto.getLastName().toLowerCase());
+       employee.setEmail(employeeRequestDto.getEmail());
+       employee.setSalary(employeeRequestDto.getSalary());
+
+       String status = employeeRequestDto.getStatus().toLowerCase();
+       EmployeeStatus employeeStatus = status.equals("active") ? EmployeeStatus.ACTIVE : EmployeeStatus.INACTIVE;
+
+       employee.setStatus(employeeStatus);
+
+       Employee updatedEmployee = employeeRepository.save(employee);
+
+       return modelMapper.map(updatedEmployee, EmployeeResponseDto.class);
+    }
 //    delete employee
 
 

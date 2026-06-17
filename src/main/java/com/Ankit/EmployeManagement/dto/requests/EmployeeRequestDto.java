@@ -1,5 +1,6 @@
 package com.Ankit.EmployeManagement.dto.requests;
 
+import com.Ankit.EmployeManagement.model.EmployeeStatus;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -23,5 +24,7 @@ public class EmployeeRequestDto {
 
     @NotNull
     private String Department;
+
+    private String status;
 }
 
