@@ -3,6 +3,7 @@ package com.Ankit.EmployeManagement.service;
 import com.Ankit.EmployeManagement.dto.requests.EmployeeRequestDto;
 import com.Ankit.EmployeManagement.dto.response.EmployeeResponseDto;
 import com.Ankit.EmployeManagement.exception.DepartmentNotFoundException;
+import com.Ankit.EmployeManagement.exception.EmployeeAlreadyExistException;
 import com.Ankit.EmployeManagement.exception.EmployeeNotFoundException;
 import com.Ankit.EmployeManagement.model.Department;
 import com.Ankit.EmployeManagement.model.Employee;
@@ -77,6 +78,11 @@ public class EmployeeService {
 
        if(!departmentRepository.existsByName(normalize)) {
            throw new DepartmentNotFoundException("Department does not exist with name : " + normalize);
+       }
+
+       if(employeeRepository.existsByEmail(employeeRequestDto.getEmail())) {
+           throw new EmployeeAlreadyExistException(
+                   "Employee already exist with the email : " + employeeRequestDto.getEmail());
        }
 
        Department department = departmentRepository.findByName(normalize).get();
