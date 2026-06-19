@@ -34,13 +34,13 @@ Employee Endpoints
 
 | Method | Endpoint                            | Description          |
 | ------ | ----------------------------------- | -------------------- |
-| POST   | /api/employees                      | Add employee         |
-| GET    | /api/employees                      | Get all employees    |
-| GET    | /api/employees/{id}                 | Get employee by id   |
-| PUT    | /api/employees/{id}                 | Update employee      |
+| POST   | /api/employees                      | Add employee         |-
+| GET    | /api/employees                      | Get all employees    |-
+| GET    | /api/employees/{id}                 | Get employee by id   |-
+| PUT    | /api/employees/{id}                 | Update employee      |-
 | DELETE | /api/employees/{id}                 | Delete employee      |
-| GET    | /api/employees/search?name=ankit    | Search by name       |
-| GET    | /api/employees/search?department=IT | Search by department |
+| GET    | /api/employees/search?name=ankit    | Search by name       |-
+| GET    | /api/employees/search?department=IT | Search by department |-
 
 
 Department Endpoints

@@ -15,6 +15,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class Employee {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String firstName;

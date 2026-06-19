@@ -52,10 +52,13 @@ public class EmployeeService {
        return modelMapper.map(employee, EmployeeResponseDto.class);
    }
 
-   public Page<EmployeeResponseDto> getEmployeeByName(String name, int page, int size) {
+   public Page<EmployeeResponseDto> getEmployeeByName(String firstName, String lastName, int page, int size) {
        Pageable pageable = PageRequest.of(page, size);
 
-       Page<Employee> employeePage = employeeRepository.findByName(name, pageable);
+       firstName = firstName.trim().toLowerCase();
+       lastName = lastName.trim().toLowerCase();
+
+       Page<Employee> employeePage = employeeRepository.findByFirstNameAndLastName(firstName, lastName, pageable);
 
        return employeePage.map((employee)-> {
            return modelMapper.map(employee, EmployeeResponseDto.class);
@@ -64,6 +67,7 @@ public class EmployeeService {
 
    public Page<EmployeeResponseDto> getEmployeeByDepartment(String departmentName, int page, int size) {
        Pageable pageable = PageRequest.of(page, size);
+       departmentName = departmentName.trim().toLowerCase();
        Page<Employee> employeePage = employeeRepository.findByDepartmentName(departmentName, pageable);
 
        return employeePage.map(employee -> {

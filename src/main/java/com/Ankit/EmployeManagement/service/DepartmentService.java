@@ -77,7 +77,7 @@ public class DepartmentService {
                 });
 
         department.setDescription(departmentRequestDto.getDescription());
-        department.setName(departmentRequestDto.getName());
+        department.setName(departmentRequestDto.getName().trim().toLowerCase());
 
         Department updatedDepartment = departmentRepository.save(department);
         return modelMapper.map(updatedDepartment, DepartmentResponseDto.class);
